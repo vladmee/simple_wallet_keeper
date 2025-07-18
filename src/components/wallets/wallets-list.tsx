@@ -2,6 +2,7 @@
 
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
+import { WalletItem } from "./wallet-item";
 
 export const WalletsList = () => {
   const wallets = useSelector((state: RootState) => state.wallets.wallets);
@@ -11,7 +12,7 @@ export const WalletsList = () => {
   return (
     <ul className="flex flex-col gap-2">
       {wallets.map((wallet) => (
-        <span key={wallet.address}>{wallet.address}</span>
+        <WalletItem key={wallet.address} wallet={wallet} />
       ))}
     </ul>
   );
