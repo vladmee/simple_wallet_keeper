@@ -1,15 +1,23 @@
+import { generatePrivateKey } from "viem/accounts";
+import { Wallet } from "ethers";
 import { useMutation } from "@tanstack/react-query";
 
 export function useGenerateWalletsMutation() {
   return useMutation({
     mutationFn: async () => {
-      const userPassword = prompt("Insert a password for your wallet:");
+      const pk = generatePrivateKey();
 
+      const userPassword = prompt("Insert a password for your wallet:");
       if (!userPassword) {
         throw new Error("Password is required");
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      const wallet = new Wallet(pk);
+      const encryptedWallet = await wallet.encrypt(userPassword);
+
+      console.log({ encryptedWallet });
+
+      // save to redux here
     },
     onSuccess: async () => {
       alert("Wallet created successfully!");
